@@ -2,6 +2,7 @@ import React, { useEffect, useState } from "react";
 import { useForm } from "../formulario/useForm";
 import { useDispatch, useSelector } from "react-redux";
 import { Add, editCand, Mostrar } from "../action/ActionCliente";
+import Swal from "sweetalert2";
 
 export const Home = () => {
   const [values, handleInputChange, reset, setValues] = useForm({
@@ -21,9 +22,8 @@ export const Home = () => {
     e.preventDefault();
   };
   useEffect(() => {
-    dispatch(Mostrar())
-  },[])
-
+    dispatch(Mostrar());
+  }, []);
 
   useEffect(() => {
     if (EditCan.length === undefined) {
@@ -38,35 +38,44 @@ export const Home = () => {
   }, [EditCan]);
 
   const handleAdd = () => {
-    dispatch(Add(values));
-    reset();
-    setEditarTk(false);
-    setTitel(titulo1);
+    if (
+      nombre === undefined ||
+      apellido === undefined ||
+      telefono === undefined ||
+      direccion === undefined
+    ) {
+      Swal.fire({
+        title: 'Error!',
+        text: 'Todos los campos son requeridos',
+        icon: 'error',
+        timer: 2000,
+        showConfirmButton: false
+      })
+    } else {
+      dispatch(Add(values));
+      reset();
+      setEditarTk(false);
+      setTitel(titulo1);
+    }
   };
   const handleEdt = async () => {
-    dispatch(editCand(values,));
+    dispatch(editCand(values));
     reset();
     setEditarTk(false);
     setTitel(titulo1);
   };
-
 
   return (
     <>
       <h4 className=" d-flex justify-content-center">{titel} al Visitante</h4>
-      <form
-        className="container"
-         onSubmit={hanldeSubmit}
-      >
+      <form className="container" onSubmit={hanldeSubmit}>
         <div className="input-group mb-3 container">
           <span className="input-group-text" id="basic-addon1">
-            <i className="material-icons " >
-              badge
-            </i>
+            <i className="material-icons ">badge</i>
           </span>
           <input
             type="text"
-            className="form-control"
+            className="form-control "
             placeholder="Nombre"
             aria-label="Username"
             aria-describedby="basic-addon1"
@@ -77,9 +86,7 @@ export const Home = () => {
         </div>
         <div className="input-group mb-3 container">
           <span className="input-group-text" id="basic-addon1">
-            <i className="material-icons " >
-              badge
-            </i>
+            <i className="material-icons ">badge</i>
           </span>
           <input
             type="text"
@@ -104,16 +111,12 @@ export const Home = () => {
             onChange={handleInputChange}
           />
           <span className="input-group-text" id="basic-addon1">
-            <i className="material-icons " >
-            phone_enabled
-            </i>
+            <i className="material-icons ">phone_enabled</i>
           </span>
         </div>
         <div className="input-group mb-3 container">
           <span className="input-group-text" id="basic-addon1">
-            <i className="material-icons " >
-            location_on
-            </i>
+            <i className="material-icons ">location_on</i>
           </span>
           <input
             type="text"
@@ -128,19 +131,11 @@ export const Home = () => {
         </div>
         <div className="d-grid gap-2 container ">
           {!editarTk ? (
-            <button
-              className="btn btn-info"
-              onClick={handleAdd}
-              type="submit"
-            >
+            <button className="btn btn-info" onClick={handleAdd} type="submit">
               Registrar
             </button>
           ) : (
-            <button
-              className="btn btn-info"
-              type="submit"
-              onClick={handleEdt}
-            >
+            <button className="btn btn-info" type="submit" onClick={handleEdt}>
               Editar
             </button>
           )}

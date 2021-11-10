@@ -9,6 +9,7 @@ Para la instalación de la aplicación ocuparemos la instancia:
 - Axios
 - Redux
 - Bootstrap
+- Sweetalert2
 
 ### Lenguaje
 

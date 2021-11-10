@@ -1,5 +1,6 @@
 import { types } from "../type/types";
 import axios from "axios";
+import Swal from "sweetalert2";
 
 export const Mostrar = () => {
   return async (dispatch) => {
@@ -35,6 +36,13 @@ export const Add = (candidato) => {
         console.log(error);
       });
     dispatch(addNewCandidato(New));
+    Swal.fire({
+      title: 'Registrado',
+      text: 'Registrado con exito',
+      icon: 'success',
+      timer: 2000,
+      showConfirmButton: false
+    })
   };
 };
 
